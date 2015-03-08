@@ -9,12 +9,12 @@
 # under the terms of the GNU Lesser General Public License as published by the
 # Free Software Foundation; either version 2.1 of the License, or (at your
 # option) any later version.
-# 
+#
 # This library is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
 # for more details.
-# 
+#
 # You should have received a copy of the GNU Lesser General Public License
 # along with this library; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,7 +32,7 @@ if sys.version_info[0] > 2:
     scalar_types = (int, float)
 else:
     PY2 = True
-    scalar_types = (int, long, float) 
+    scalar_types = (int, long, float)
 
 __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
@@ -154,7 +154,6 @@ class Vector2(Slotted):
             return Vector2(self.x - other[0],
                            self.y - other[1])
 
-   
     def __rsub__(self, other):
         if isinstance(other, Vector2):
             return Vector2(other.x - self.x,
@@ -209,13 +208,13 @@ class Vector2(Slotted):
         assert type(other) in scalar_types
         return Vector2(operator.truediv(other, self.x),
                        operator.truediv(other, self.y))
-    
+
     def __neg__(self):
         return Vector2(-self.x,
                         -self.y)
 
     __pos__ = __copy__
-    
+
     def __abs__(self):
         return math.sqrt(self.x ** 2 + \
                          self.y ** 2)
@@ -236,7 +235,7 @@ class Vector2(Slotted):
     def normalized(self):
         d = self.magnitude()
         if d:
-            return Vector2(self.x / d, 
+            return Vector2(self.x / d,
                            self.y / d)
         return self.copy()
 
@@ -336,7 +335,7 @@ class Vector3(Slotted):
 
     def _get_xyz(self): return self.x, self.y, self.z
     xyz = property(_get_xyz, doc="(x, y, z)")
-    
+
     def _get_xzy(self): return self.x, self.z, self.y
     xzy = property(_get_xzy, doc="(x, z, y)")
 
@@ -400,7 +399,7 @@ class Vector3(Slotted):
                            self.y - other[1],
                            self.z - other[2])
 
-   
+
     def __rsub__(self, other):
         if isinstance(other, Vector3):
             return Vector3(other.x - self.x,
@@ -422,7 +421,7 @@ class Vector3(Slotted):
             return _class(self.x * other.x,
                           self.y * other.y,
                           self.z * other.z)
-        else: 
+        else:
             assert type(other) in scalar_types
             return Vector3(self.x * other,
                            self.y * other,
@@ -475,14 +474,14 @@ class Vector3(Slotted):
         return Vector3(operator.truediv(other, self.x),
                        operator.truediv(other, self.y),
                        operator.truediv(other, self.z))
-    
+
     def __neg__(self):
         return Vector3(-self.x,
                         -self.y,
                         -self.z)
 
     __pos__ = __copy__
-    
+
     def __abs__(self):
         return math.sqrt(self.x ** 2 + \
                          self.y ** 2 + \
@@ -506,8 +505,8 @@ class Vector3(Slotted):
     def normalized(self):
         d = self.magnitude()
         if d:
-            return Vector3(self.x / d, 
-                           self.y / d, 
+            return Vector3(self.x / d,
+                           self.y / d,
                            self.z / d)
         return self.copy()
 
@@ -558,9 +557,9 @@ class Vector3(Slotted):
         n = other.normalized()
         return self.dot(n)*n
 
-# a b c 
-# e f g 
-# i j k 
+# a b c
+# e f g
+# i j k
 
 class Matrix3(Slotted):
     __slots__ = list('abcefgijk')
@@ -573,7 +572,7 @@ class Matrix3(Slotted):
         M.a = self.a
         M.b = self.b
         M.c = self.c
-        M.e = self.e 
+        M.e = self.e
         M.f = self.f
         M.g = self.g
         M.i = self.i
@@ -646,8 +645,8 @@ class Matrix3(Slotted):
             A = self
             B = other
             V = Vector2(0, 0)
-            V.x = A.a * B.x + A.b * B.y 
-            V.y = A.e * B.x + A.f * B.y 
+            V.x = A.a * B.x + A.b * B.y
+            V.y = A.e * B.x + A.f * B.y
             return V
         else:
             other = other.copy()
@@ -697,7 +696,7 @@ class Matrix3(Slotted):
 
     def translate(self, x, y):
         self *= Matrix3.new_translate(x, y)
-        return self 
+        return self
 
     def rotate(self, angle):
         self *= Matrix3.new_rotate(angle)
@@ -795,7 +794,7 @@ class Matrix4(Slotted):
         M.b = self.b
         M.c = self.c
         M.d = self.d
-        M.e = self.e 
+        M.e = self.e
         M.f = self.f
         M.g = self.g
         M.h = self.h
@@ -989,7 +988,7 @@ class Matrix4(Slotted):
 
     def translate(self, x, y, z):
         self *= Matrix4.new_translate(x, y, z)
-        return self 
+        return self
 
     def rotatex(self, angle):
         self *= Matrix4.new_rotatex(angle)
@@ -1075,9 +1074,9 @@ class Matrix4(Slotted):
         self.a = self.k = c
         self.c = s
         self.i = -s
-        return self    
+        return self
     new_rotatey = classmethod(new_rotatey)
-    
+
     def new_rotatez(cls, angle):
         self = cls()
         s = math.sin(angle)
@@ -1099,7 +1098,7 @@ class Matrix4(Slotted):
         s = math.sin(angle)
         c = math.cos(angle)
         c1 = 1. - c
-        
+
         # from the glRotate man page
         self.a = x * x * c1 + c
         self.b = x * y * c1 - z * s
@@ -1137,11 +1136,11 @@ class Matrix4(Slotted):
 
     def new_rotate_triple_axis(cls, x, y, z):
       m = cls()
-      
+
       m.a, m.b, m.c = x.x, y.x, z.x
       m.e, m.f, m.g = x.y, y.y, z.y
       m.i, m.j, m.k = x.z, y.z, z.z
-      
+
       return m
     new_rotate_triple_axis = classmethod(new_rotate_triple_axis)
 
@@ -1149,12 +1148,12 @@ class Matrix4(Slotted):
       z = (eye - at).normalized()
       x = up.cross(z).normalized()
       y = z.cross(x)
-      
+
       m = cls.new_rotate_triple_axis(x, y, z)
       m.d, m.h, m.l = eye.x, eye.y, eye.z
       return m
     new_look_at = classmethod(new_look_at)
-    
+
     def new_perspective(cls, fov_y, aspect, near, far):
         # from the gluPerspective man page
         f = 1 / math.tan(fov_y / 2)
@@ -1197,27 +1196,27 @@ class Matrix4(Slotted):
             tmp.e = d * (self.g * (self.i * self.p - self.m * self.l) + self.k * (self.m * self.h - self.e * self.p) + self.o * (self.e * self.l - self.i * self.h));
             tmp.i = d * (self.h * (self.i * self.n - self.m * self.j) + self.l * (self.m * self.f - self.e * self.n) + self.p * (self.e * self.j - self.i * self.f));
             tmp.m = d * (self.e * (self.n * self.k - self.j * self.o) + self.i * (self.f * self.o - self.n * self.g) + self.m * (self.j * self.g - self.f * self.k));
-            
+
             tmp.b = d * (self.j * (self.c * self.p - self.o * self.d) + self.n * (self.k * self.d - self.c * self.l) + self.b * (self.o * self.l - self.k * self.p));
             tmp.f = d * (self.k * (self.a * self.p - self.m * self.d) + self.o * (self.i * self.d - self.a * self.l) + self.c * (self.m * self.l - self.i * self.p));
             tmp.j = d * (self.l * (self.a * self.n - self.m * self.b) + self.p * (self.i * self.b - self.a * self.j) + self.d * (self.m * self.j - self.i * self.n));
             tmp.n = d * (self.i * (self.n * self.c - self.b * self.o) + self.m * (self.b * self.k - self.j * self.c) + self.a * (self.j * self.o - self.n * self.k));
-            
+
             tmp.c = d * (self.n * (self.c * self.h - self.g * self.d) + self.b * (self.g * self.p - self.o * self.h) + self.f * (self.o * self.d - self.c * self.p));
             tmp.g = d * (self.o * (self.a * self.h - self.e * self.d) + self.c * (self.e * self.p - self.m * self.h) + self.g * (self.m * self.d - self.a * self.p));
             tmp.k = d * (self.p * (self.a * self.f - self.e * self.b) + self.d * (self.e * self.n - self.m * self.f) + self.h * (self.m * self.b - self.a * self.n));
             tmp.o = d * (self.m * (self.f * self.c - self.b * self.g) + self.a * (self.n * self.g - self.f * self.o) + self.e * (self.b * self.o - self.n * self.c));
-            
+
             tmp.d = d * (self.b * (self.k * self.h - self.g * self.l) + self.f * (self.c * self.l - self.k * self.d) + self.j * (self.g * self.d - self.c * self.h));
             tmp.h = d * (self.c * (self.i * self.h - self.e * self.l) + self.g * (self.a * self.l - self.i * self.d) + self.k * (self.e * self.d - self.a * self.h));
             tmp.l = d * (self.d * (self.i * self.f - self.e * self.j) + self.h * (self.a * self.j - self.i * self.b) + self.l * (self.e * self.b - self.a * self.f));
             tmp.p = d * (self.a * (self.f * self.k - self.j * self.g) + self.e * (self.j * self.c - self.b * self.k) + self.i * (self.b * self.g - self.f * self.c));
 
         return tmp;
-        
+
 
 class Quaternion(Slotted):
-    # All methods and naming conventions based off 
+    # All methods and naming conventions based off
     # http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions
 
     # w is the real part, (x, y, z) are the imaginary parts
@@ -1254,7 +1253,7 @@ class Quaternion(Slotted):
             Bz = other.z
             Bw = other.w
             Q = Quaternion()
-            Q.x =  Ax * Bw + Ay * Bz - Az * By + Aw * Bx    
+            Q.x =  Ax * Bw + Ay * Bz - Az * By + Aw * Bx
             Q.y = -Ax * Bz + Ay * Bw + Az * Bx + Aw * By
             Q.z =  Ax * By - Ay * Bx + Az * Bw + Aw * Bz
             Q.w = -Ax * Bx - Ay * By - Az * Bz + Aw * Bw
@@ -1304,7 +1303,7 @@ class Quaternion(Slotted):
         By = other.y
         Bz = other.z
         Bw = other.w
-        self.x =  Ax * Bw + Ay * Bz - Az * By + Aw * Bx    
+        self.x =  Ax * Bw + Ay * Bz - Az * By + Aw * Bx
         self.y = -Ax * Bz + Ay * Bw + Az * Bx + Aw * By
         self.z =  Ax * By - Ay * Bx + Az * Bw + Aw * Bz
         self.w = -Ax * Bx - Ay * By - Az * Bz + Aw * Bw
@@ -1322,7 +1321,7 @@ class Quaternion(Slotted):
         return self.w ** 2 + \
                self.x ** 2 + \
                self.y ** 2 + \
-               self.z ** 2 
+               self.z ** 2
 
     def identity(self):
         self.w = 1
@@ -1457,53 +1456,45 @@ class Quaternion(Slotted):
         Q.z = c1 * s2 * c3 - s1 * c2 * s3
         return Q
     new_rotate_euler = classmethod(new_rotate_euler)
-    
+
     def new_rotate_matrix(cls, m):
-      if m[0*4 + 0] + m[1*4 + 1] + m[2*4 + 2] > 0.00000001:
-        t = m[0*4 + 0] + m[1*4 + 1] + m[2*4 + 2] + 1.0
-        s = 0.5/math.sqrt(t)
-        
-        return cls(
-          s*t,
-          (m[1*4 + 2] - m[2*4 + 1])*s,
-          (m[2*4 + 0] - m[0*4 + 2])*s,
-          (m[0*4 + 1] - m[1*4 + 0])*s
-          )
-        
-      elif m[0*4 + 0] > m[1*4 + 1] and m[0*4 + 0] > m[2*4 + 2]:
-        t = m[0*4 + 0] - m[1*4 + 1] - m[2*4 + 2] + 1.0
-        s = 0.5/math.sqrt(t)
-        
-        return cls(
-          (m[1*4 + 2] - m[2*4 + 1])*s,
-          s*t,
-          (m[0*4 + 1] + m[1*4 + 0])*s,
-          (m[2*4 + 0] + m[0*4 + 2])*s
-          )
-        
-      elif m[1*4 + 1] > m[2*4 + 2]:
-        t = -m[0*4 + 0] + m[1*4 + 1] - m[2*4 + 2] + 1.0
-        s = 0.5/math.sqrt(t)
-        
-        return cls(
-          (m[2*4 + 0] - m[0*4 + 2])*s,
-          (m[0*4 + 1] + m[1*4 + 0])*s,
-          s*t,
-          (m[1*4 + 2] + m[2*4 + 1])*s
-          )
-        
-      else:
-        t = -m[0*4 + 0] - m[1*4 + 1] + m[2*4 + 2] + 1.0
-        s = 0.5/math.sqrt(t)
-        
-        return cls(
-          (m[0*4 + 1] - m[1*4 + 0])*s,
-          (m[2*4 + 0] + m[0*4 + 2])*s,
-          (m[1*4 + 2] + m[2*4 + 1])*s,
-          s*t
-          )
+        if m[0*4 + 0] + m[1*4 + 1] + m[2*4 + 2] > 0.00000001:
+            t = m[0*4 + 0] + m[1*4 + 1] + m[2*4 + 2] + 1.0
+            s = 0.5/math.sqrt(t)
+
+            return cls(s*t,
+                       (m[1*4 + 2] - m[2*4 + 1])*s,
+                       (m[2*4 + 0] - m[0*4 + 2])*s,
+                       (m[0*4 + 1] - m[1*4 + 0])*s)
+
+        elif m[0*4 + 0] > m[1*4 + 1] and m[0*4 + 0] > m[2*4 + 2]:
+            t = m[0*4 + 0] - m[1*4 + 1] - m[2*4 + 2] + 1.0
+            s = 0.5/math.sqrt(t)
+
+            return cls((m[1*4 + 2] - m[2*4 + 1])*s,
+                       s*t,
+                       (m[0*4 + 1] + m[1*4 + 0])*s,
+                       (m[2*4 + 0] + m[0*4 + 2])*s)
+
+        elif m[1*4 + 1] > m[2*4 + 2]:
+            t = -m[0*4 + 0] + m[1*4 + 1] - m[2*4 + 2] + 1.0
+            s = 0.5/math.sqrt(t)
+
+            return cls((m[2*4 + 0] - m[0*4 + 2])*s,
+                       (m[0*4 + 1] + m[1*4 + 0])*s,
+                       s*t,
+                       (m[1*4 + 2] + m[2*4 + 1])*s)
+
+        else:
+            t = -m[0*4 + 0] - m[1*4 + 1] + m[2*4 + 2] + 1.0
+            s = 0.5/math.sqrt(t)
+
+            return cls((m[0*4 + 1] - m[1*4 + 0])*s,
+                       (m[2*4 + 0] + m[0*4 + 2])*s,
+                       (m[1*4 + 2] + m[2*4 + 1])*s,
+                       s*t)
     new_rotate_matrix = classmethod(new_rotate_matrix)
-    
+
     def new_interpolate(cls, q1, q2, t):
         assert isinstance(q1, Quaternion) and isinstance(q2, Quaternion)
         Q = cls()
@@ -1541,18 +1532,20 @@ class Quaternion(Slotted):
         return Q
     new_interpolate = classmethod(new_interpolate)
 
+
 # Geometry
 # Much maths thanks to Paul Bourke, http://astronomy.swin.edu.au/~pbourke
 # ---------------------------------------------------------------------------
 
 class Geometry(object):
+
     def _connect_unimplemented(self, other):
-        raise AttributeError('Cannot connect %s to %s' % \
-            (self.__class__, other.__class__))
+        raise AttributeError('Cannot connect %s to %s' %
+                             (self.__class__, other.__class__))
 
     def _intersect_unimplemented(self, other):
-        raise AttributeError('Cannot intersect %s and %s' % \
-            (self.__class__, other.__class__))
+        raise AttributeError('Cannot intersect %s and %s' %
+                             (self.__class__, other.__class__))
 
     _intersect_point2 = _intersect_unimplemented
     _intersect_line2 = _intersect_unimplemented
@@ -1582,9 +1575,11 @@ class Geometry(object):
             return c.length
         return 0.0
 
+
 def _intersect_point2_circle(P, C):
     return abs(P - C.c) <= C.r
-    
+
+
 def _intersect_line2_line2(A, B):
     d = B.v.y * A.v.x - B.v.x * A.v.y
     if d == 0:
@@ -1602,9 +1597,10 @@ def _intersect_line2_line2(A, B):
     return Point2(A.p.x + ua * A.v.x,
                   A.p.y + ua * A.v.y)
 
+
 def _intersect_line2_circle(L, C):
     a = L.v.magnitude_squared()
-    b = 2 * (L.v.x * (L.p.x - C.c.x) + \
+    b = 2 * (L.v.x * (L.p.x - C.c.x) +
              L.v.y * (L.p.y - C.c.y))
     c = C.c.magnitude_squared() + \
         L.p.magnitude_squared() - \
@@ -1631,22 +1627,25 @@ def _intersect_line2_circle(L, C):
                         Point2(L.p.x + u2 * L.v.x,
                                L.p.y + u2 * L.v.y))
 
+
 def _connect_point2_line2(P, L):
     d = L.v.magnitude_squared()
     assert d != 0
-    u = ((P.x - L.p.x) * L.v.x + \
+    u = ((P.x - L.p.x) * L.v.x +
          (P.y - L.p.y) * L.v.y) / d
     if not L._u_in(u):
         u = max(min(u, 1.0), 0.0)
-    return LineSegment2(P, 
+    return LineSegment2(P,
                         Point2(L.p.x + u * L.v.x,
                                L.p.y + u * L.v.y))
+
 
 def _connect_point2_circle(P, C):
     v = P - C.c
     v.normalize()
     v *= C.r
     return LineSegment2(P, Point2(C.c.x + v.x, C.c.y + v.y))
+
 
 def _connect_line2_line2(A, B):
     d = B.v.y * A.v.x - B.v.x * A.v.y
@@ -1671,6 +1670,7 @@ def _connect_line2_line2(A, B):
     return LineSegment2(Point2(A.p.x + ua * A.v.x, A.p.y + ua * A.v.y),
                         Point2(B.p.x + ub * B.v.x, B.p.y + ub * B.v.y))
 
+
 def _connect_circle_line2(C, L):
     d = L.v.magnitude_squared()
     assert d != 0
@@ -1683,23 +1683,25 @@ def _connect_circle_line2(C, L):
     v *= C.r
     return LineSegment2(Point2(C.c.x + v.x, C.c.y + v.y), point)
 
+
 def _connect_circle_circle(A, B):
     v = B.c - A.c
     d = v.magnitude()
     if A.r >= B.r and d < A.r:
-        #centre B inside A
-        s1,s2 = +1, +1
+        # centre B inside A
+        s1, s2 = +1, +1
     elif B.r > A.r and d < B.r:
-        #centre A inside B
-        s1,s2 = -1, -1
+        # centre A inside B
+        s1, s2 = -1, -1
     elif d >= A.r and d >= B.r:
-        s1,s2 = +1, -1
+        s1, s2 = +1, -1
     v.normalize()
     return LineSegment2(Point2(A.c.x + s1 * v.x * A.r, A.c.y + s1 * v.y * A.r),
                         Point2(B.c.x + s2 * v.x * B.r, B.c.y + s2 * v.y * B.r))
 
 
 class Point2(Vector2, Geometry):
+
     def __repr__(self):
         return 'Point2(%.2f, %.2f)' % (self.x, self.y)
 
@@ -1714,7 +1716,7 @@ class Point2(Vector2, Geometry):
 
     def _connect_point2(self, other):
         return LineSegment2(other, self)
-    
+
     def _connect_line2(self, other):
         c = _connect_point2_line2(self, other)
         if c:
@@ -1724,6 +1726,7 @@ class Point2(Vector2, Geometry):
         c = _connect_point2_circle(self, other)
         if c:
             return c._swap()
+
 
 class Line2(Geometry, Slotted):
     __slots__ = ['p', 'v']
@@ -1743,7 +1746,7 @@ class Line2(Geometry, Slotted):
                 self.p = args[0].copy()
                 self.v = args[1].copy()
             else:
-                raise AttributeError( '%r' % (args,))
+                raise AttributeError('%r' % (args,))
         elif len(args) == 1:
             if isinstance(args[0], Line2):
                 self.p = args[0].p.copy()
@@ -1752,9 +1755,9 @@ class Line2(Geometry, Slotted):
                 raise AttributeError('%r' % (args,))
         else:
             raise AttributeError('%r' % (args,))
-        
+
         if not self.v:
-            raise AttributeError( 'Line has zero-length vector')
+            raise AttributeError('Line has zero-length vector')
 
     def __copy__(self):
         return self.__class__(self.p, self.v)
@@ -1766,7 +1769,7 @@ class Line2(Geometry, Slotted):
             (self.p.x, self.p.y, self.v.x, self.v.y)
 
     p1 = property(lambda self: self.p)
-    p2 = property(lambda self: Point2(self.p.x + self.v.x, 
+    p2 = property(lambda self: Point2(self.p.x + self.v.x,
                                       self.p.y + self.v.y))
 
     def _apply_transform(self, t):
@@ -1797,7 +1800,9 @@ class Line2(Geometry, Slotted):
     def _connect_circle(self, other):
         return _connect_circle_line2(other, self)
 
+
 class Ray2(Line2):
+
     def __repr__(self):
         return 'Ray2(<%.2f, %.2f> + u<%.2f, %.2f>)' % \
             (self.p.x, self.p.y, self.v.x, self.v.y)
@@ -1805,7 +1810,9 @@ class Ray2(Line2):
     def _u_in(self, u):
         return u >= 0.0
 
+
 class LineSegment2(Line2):
+
     def __repr__(self):
         return 'LineSegment2(<%.2f, %.2f> to <%.2f, %.2f>)' % \
             (self.p.x, self.p.y, self.p.x + self.v.x, self.p.y + self.v.y)
@@ -1826,6 +1833,7 @@ class LineSegment2(Line2):
         return self
 
     length = property(lambda self: abs(self.v))
+
 
 class Circle(Geometry, Slotted):
     __slots__ = ['c', 'r']
@@ -1870,14 +1878,15 @@ class Circle(Geometry, Slotted):
     def _connect_circle(self, other):
         return _connect_circle_circle(other, self)
 
+
 # 3D Geometry
 # -------------------------------------------------------------------------
 
 def _connect_point3_line3(P, L):
     d = L.v.magnitude_squared()
     assert d != 0
-    u = ((P.x - L.p.x) * L.v.x + \
-         (P.y - L.p.y) * L.v.y + \
+    u = ((P.x - L.p.x) * L.v.x +
+         (P.y - L.p.y) * L.v.y +
          (P.z - L.p.z) * L.v.z) / d
     if not L._u_in(u):
         u = max(min(u, 1.0), 0.0)
@@ -1885,16 +1894,19 @@ def _connect_point3_line3(P, L):
                                   L.p.y + u * L.v.y,
                                   L.p.z + u * L.v.z))
 
+
 def _connect_point3_sphere(P, S):
     v = P - S.c
     v.normalize()
     v *= S.r
     return LineSegment3(P, Point3(S.c.x + v.x, S.c.y + v.y, S.c.z + v.z))
 
+
 def _connect_point3_plane(p, plane):
     n = plane.n.normalized()
     d = p.dot(plane.n) - plane.k
     return LineSegment3(p, Point3(p.x - n.x * d, p.y - n.y * d, p.z - n.z * d))
+
 
 def _connect_line3_line3(A, B):
     assert A.v and B.v
@@ -1925,6 +1937,7 @@ def _connect_line3_line3(A, B):
                                B.p.y + ub * B.v.y,
                                B.p.z + ub * B.v.z))
 
+
 def _connect_line3_plane(L, P):
     d = P.n.dot(L.v)
     if not d:
@@ -1940,11 +1953,12 @@ def _connect_line3_plane(L, P):
     # Intersection
     return None
 
+
 def _connect_sphere_line3(S, L):
     d = L.v.magnitude_squared()
     assert d != 0
-    u = ((S.c.x - L.p.x) * L.v.x + \
-         (S.c.y - L.p.y) * L.v.y + \
+    u = ((S.c.x - L.p.x) * L.v.x +
+         (S.c.y - L.p.y) * L.v.y +
          (S.c.z - L.p.z) * L.v.z) / d
     if not L._u_in(u):
         u = max(min(u, 1.0), 0.0)
@@ -1952,28 +1966,30 @@ def _connect_sphere_line3(S, L):
     v = (point - S.c)
     v.normalize()
     v *= S.r
-    return LineSegment3(Point3(S.c.x + v.x, S.c.y + v.y, S.c.z + v.z), 
+    return LineSegment3(Point3(S.c.x + v.x, S.c.y + v.y, S.c.z + v.z),
                         point)
+
 
 def _connect_sphere_sphere(A, B):
     v = B.c - A.c
     d = v.magnitude()
     if A.r >= B.r and d < A.r:
-        #centre B inside A
-        s1,s2 = +1, +1
+        # centre B inside A
+        s1, s2 = +1, +1
     elif B.r > A.r and d < B.r:
-        #centre A inside B
-        s1,s2 = -1, -1
+        # centre A inside B
+        s1, s2 = -1, -1
     elif d >= A.r and d >= B.r:
-        s1,s2 = +1, -1
+        s1, s2 = +1, -1
 
     v.normalize()
-    return LineSegment3(Point3(A.c.x + s1* v.x * A.r,
-                               A.c.y + s1* v.y * A.r,
-                               A.c.z + s1* v.z * A.r),
-                        Point3(B.c.x + s2* v.x * B.r,
-                               B.c.y + s2* v.y * B.r,
-                               B.c.z + s2* v.z * B.r))
+    return LineSegment3(Point3(A.c.x + s1 * v.x * A.r,
+                               A.c.y + s1 * v.y * A.r,
+                               A.c.z + s1 * v.z * A.r),
+                        Point3(B.c.x + s2 * v.x * B.r,
+                               B.c.y + s2 * v.y * B.r,
+                               B.c.z + s2 * v.z * B.r))
+
 
 def _connect_sphere_plane(S, P):
     c = _connect_point3_plane(S.c, P)
@@ -1983,8 +1999,9 @@ def _connect_sphere_plane(S, P):
     v = p2 - S.c
     v.normalize()
     v *= S.r
-    return LineSegment3(Point3(S.c.x + v.x, S.c.y + v.y, S.c.z + v.z), 
+    return LineSegment3(Point3(S.c.x + v.x, S.c.y + v.y, S.c.z + v.z),
                         p2)
+
 
 def _connect_plane_plane(A, B):
     if A.n.cross(B.n):
@@ -1994,13 +2011,15 @@ def _connect_plane_plane(A, B):
         # Planes are parallel, connect to arbitrary point
         return _connect_point3_plane(A._get_point(), B)
 
+
 def _intersect_point3_sphere(P, S):
     return abs(P - S.c) <= S.r
-    
+
+
 def _intersect_line3_sphere(L, S):
     a = L.v.magnitude_squared()
-    b = 2 * (L.v.x * (L.p.x - S.c.x) + \
-             L.v.y * (L.p.y - S.c.y) + \
+    b = 2 * (L.v.x * (L.p.x - S.c.x) +
+             L.v.y * (L.p.y - S.c.y) +
              L.v.z * (L.p.z - S.c.z))
     c = S.c.magnitude_squared() + \
         L.p.magnitude_squared() - \
@@ -2023,6 +2042,7 @@ def _intersect_line3_sphere(L, S):
                                L.p.y + u2 * L.v.y,
                                L.p.z + u2 * L.v.z))
 
+
 def _intersect_line3_plane(L, P):
     d = P.n.dot(L.v)
     if not d:
@@ -2034,6 +2054,7 @@ def _intersect_line3_plane(L, P):
     return Point3(L.p.x + u * L.v.x,
                   L.p.y + u * L.v.y,
                   L.p.z + u * L.v.z)
+
 
 def _intersect_plane_plane(A, B):
     n1_m = A.n.magnitude_squared()
@@ -2047,10 +2068,12 @@ def _intersect_plane_plane(A, B):
     c2 = (B.k * n1_m - A.k * n1d2) / det
     return Line3(Point3(c1 * A.n.x + c2 * B.n.x,
                         c1 * A.n.y + c2 * B.n.y,
-                        c1 * A.n.z + c2 * B.n.z), 
+                        c1 * A.n.z + c2 * B.n.z),
                  A.n.cross(B.n))
 
+
 class Point3(Vector3, Geometry):
+
     def __repr__(self):
         return 'Point3(%.2f, %.2f, %.2f)' % (self.x, self.y, self.z)
 
@@ -2072,7 +2095,7 @@ class Point3(Vector3, Geometry):
         c = _connect_point3_line3(self, other)
         if c:
             return c._swap()
-        
+
     def _connect_sphere(self, other):
         c = _connect_point3_sphere(self, other)
         if c:
@@ -2083,7 +2106,9 @@ class Point3(Vector3, Geometry):
         if c:
             return c._swap()
 
+
 class Line3(Slotted):
+
     __slots__ = ['p', 'v']
 
     def __init__(self, *args):
@@ -2101,7 +2126,7 @@ class Line3(Slotted):
                 self.p = args[0].copy()
                 self.v = args[1].copy()
             else:
-                raise AttributeError( '%r' % (args,))
+                raise AttributeError('%r' % (args,))
         elif len(args) == 1:
             if isinstance(args[0], Line3):
                 self.p = args[0].p.copy()
@@ -2110,9 +2135,9 @@ class Line3(Slotted):
                 raise AttributeError('%r' % (args,))
         else:
             raise AttributeError('%r' % (args,))
-        
+
         # XXX This is annoying.
-        #if not self.v:
+        # if not self.v:
         #    raise AttributeError, 'Line has zero-length vector'
 
     def __copy__(self):
@@ -2125,7 +2150,7 @@ class Line3(Slotted):
             (self.p.x, self.p.y, self.p.z, self.v.x, self.v.y, self.v.z)
 
     p1 = property(lambda self: self.p)
-    p2 = property(lambda self: Point3(self.p.x + self.v.x, 
+    p2 = property(lambda self: Point3(self.p.x + self.v.x,
                                       self.p.y + self.v.y,
                                       self.p.z + self.v.z))
 
@@ -2162,7 +2187,9 @@ class Line3(Slotted):
         if c:
             return c
 
+
 class Ray3(Line3):
+
     def __repr__(self):
         return 'Ray3(<%.2f, %.2f, %.2f> + u<%.2f, %.2f, %.2f>)' % \
             (self.p.x, self.p.y, self.p.z, self.v.x, self.v.y, self.v.z)
@@ -2170,7 +2197,9 @@ class Ray3(Line3):
     def _u_in(self, u):
         return u >= 0.0
 
+
 class LineSegment3(Line3):
+
     def __repr__(self):
         return 'LineSegment3(<%.2f, %.2f, %.2f> to <%.2f, %.2f, %.2f>)' % \
             (self.p.x, self.p.y, self.p.z,
@@ -2192,6 +2221,7 @@ class LineSegment3(Line3):
         return self
 
     length = property(lambda self: abs(self.v))
+
 
 class Sphere(Slotted):
     __slots__ = ['c', 'r']
@@ -2241,6 +2271,7 @@ class Sphere(Slotted):
         if c:
             return c
 
+
 class Plane(Slotted):
     # n.p = k, where n is normal, p is point on plane, k is constant scalar
     __slots__ = ['n', 'k']
@@ -2261,11 +2292,11 @@ class Plane(Slotted):
                 self.n = args[0].normalized()
                 self.k = args[1]
             else:
-                raise AttributeError( '%r' % (args,))
+                raise AttributeError('%r' % (args,))
 
         else:
             raise AttributeError('%r' % (args,))
-        
+
         if not self.n:
             raise AttributeError('Points on plane are colinear')
 
@@ -2315,4 +2346,3 @@ class Plane(Slotted):
 
     def _connect_plane(self, other):
         return _connect_plane_plane(other, self)
-
