@@ -26,7 +26,11 @@ at http://code.google.com/p/pyeuclid
 '''
 
 from __future__ import division, print_function, unicode_literals
+
 import sys
+import math
+import operator
+
 if sys.version_info[0] > 2:
     PY2 = False
     scalar_types = (int, float)
@@ -37,10 +41,6 @@ else:
 __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
 __revision__ = '$Revision$'
-
-import math
-import operator
-import types
 
 
 class Slotted(object):
